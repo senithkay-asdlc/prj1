@@ -1,0 +1,20 @@
+title prj1 — Expense Claims
+
+component expense-webapp as "Expense Claims" web-application
+component expense-api as "Expense API" service
+component expense-db as "Expense Database" database
+component receipt-storage as "Receipt Storage" storage
+
+east user-auth as "Thunder Auth" identity-server
+south email-provider as "Email Provider" service
+
+north -> expense-webapp
+north -> expense-api
+
+expense-webapp -> expense-api
+expense-webapp -> user-auth
+
+expense-api -> user-auth
+expense-api -> expense-db
+expense-api -> receipt-storage
+expense-api -> email-provider

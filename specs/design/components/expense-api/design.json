@@ -1,0 +1,47 @@
+{
+  "name": "expense-api",
+  "type": "service",
+  "version": "0.1.0",
+  "language": "Ballerina",
+  "buildpack": "docker",
+  "appPath": "expense-api",
+  "entrypoint": "deployment/service",
+  "exposure": "internet",
+  "dependencies": [
+    {
+      "kind": "platform-resource",
+      "name": "user-auth",
+      "resourceType": "thunder-app",
+      "parameters": { "scopes": "openid profile email" },
+      "description": "Validates each caller's Thunder-issued token and resolves their identity for role lookup."
+    },
+    {
+      "kind": "platform-resource",
+      "name": "expense-db",
+      "resourceType": "postgres-cnpg",
+      "description": "Stores employees (with role and manager link), expense claims, statuses, rejection reasons, and export history."
+    },
+    {
+      "kind": "platform-resource",
+      "name": "receipt-storage",
+      "resourceType": "object-storage",
+      "description": "Stores uploaded receipt files; a claim's receiptUrl points to the stored object."
+    },
+    {
+      "kind": "external",
+      "name": "email-provider",
+      "candidates": [
+        { "name": "sendgrid", "style": "sdk", "package": "npm:@sendgrid/mail@^8" },
+        { "name": "resend", "style": "rest-api" },
+        { "name": "postmark", "style": "sdk", "package": "npm:postmark@^4" }
+      ],
+      "config": [
+        { "key": "EMAIL_API_KEY", "secret": true, "description": "API key for the chosen transactional email provider" },
+        { "key": "EMAIL_FROM_ADDRESS", "description": "The from-address used for status-change emails" }
+      ],
+      "description": "Sends the status-change email to an employee (and their manager) when a claim is approved or rejected. No provider named yet — options are SendGrid, Resend, or Postmark."
+    }
+  ],
+  "description": "Ballerina service owning expense claims end to end: submission, manager approval/rejection with a reason, and finance's export of approved-but-unexported claims to a downloadable payroll-ready file. Enforces role-based access (employee/manager/finance) from the caller's Thunder-issued token, scoping each read to what that role may see. Does not integrate with any specific payroll system — export produces a file only, never a live push.",
+  "skillsPinned": ["openapi-conventions", "ballerina", "api-management", "thunder-authentication"]
+}

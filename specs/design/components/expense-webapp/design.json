@@ -1,0 +1,26 @@
+{
+  "name": "expense-webapp",
+  "type": "web-application",
+  "version": "0.1.0",
+  "language": "TypeScript",
+  "buildpack": "docker",
+  "appPath": "expense-webapp",
+  "entrypoint": "deployment/web-application",
+  "exposure": "internet",
+  "dependencies": [
+    {
+      "kind": "component",
+      "name": "expense-api",
+      "description": "Calls the Expense API for all claim submission, approval, and export operations."
+    },
+    {
+      "kind": "platform-resource",
+      "name": "user-auth",
+      "resourceType": "thunder-app",
+      "parameters": { "scopes": "openid profile email" },
+      "description": "Thunder sign-in shared by Employees, Managers, and Finance; provides the OIDC client the SPA uses to authenticate via PKCE."
+    }
+  ],
+  "description": "React single-page app giving Employees, Managers, and Finance role-scoped views onto expense claims: submission and status tracking, the manager approval queue, and finance's export screen. Talks only to expense-api over HTTP; holds no database or storage credentials directly.",
+  "skillsPinned": ["wireframes", "react-webapp", "thunder-authentication"]
+}
