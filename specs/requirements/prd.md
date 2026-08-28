@@ -33,10 +33,10 @@ A shared expense-claim system where employees submit claims with the details a m
 - Approval is single-level: a claim needs only its manager's approval before it is eligible for export — there is no separate finance sign-off step.
 - Finance's export produces a downloadable file (e.g. CSV) formatted for upload into whatever payroll system the organization uses, rather than a live integration with a named payroll provider.
 - The actor set is Employee, Manager, and Finance only — no separate Admin role.
-- Expense claims use a fixed, predefined set of categories (e.g. Travel, Meals, Lodging, Supplies, Other) rather than free-text or per-organization configuration. *assumed*
-- All claims are submitted in a single organization-wide currency; the system does not do multi-currency conversion. *assumed*
-- Receipt attachment is optional on submission, not mandatory. *assumed*
-- Employees and managers receive an email notification when a claim's status changes (approved or rejected). *assumed*
+- Expense claims use a fixed, predefined set of categories (e.g. Travel, Meals, Lodging, Supplies, Other) rather than free-text or per-organization configuration.
+- All claims are submitted in a single organization-wide currency; the system does not do multi-currency conversion.
+- Receipt attachment is optional on submission, not mandatory.
+- Employees and managers receive an email notification when a claim's status changes (approved or rejected).
 - An exported claim is locked from further edits or re-export; only rejected claims can be resubmitted. *assumed*
 
 ## Out of Scope
